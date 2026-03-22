@@ -42,6 +42,7 @@ export function LinkServiceCheckModal({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     if (!server || !selectedServiceCheckId) return;
     setLoading(true);
     try {
@@ -57,6 +58,7 @@ export function LinkServiceCheckModal({
         err instanceof ApiClientError && err.status === 409
           ? TOAST_MESSAGES.ATTACH_CONFLICT
           : TOAST_MESSAGES.ATTACH_ERROR;
+
       toast.error(msg);
     } finally {
       setLoading(false);

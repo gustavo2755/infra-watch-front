@@ -9,6 +9,7 @@ React + TypeScript frontend for the Infra Watch API.
 - Vite
 - Tailwind CSS v4
 - React Router DOM
+- Recharts (monitoring charts)
 
 ## Setup
 
@@ -35,4 +36,5 @@ npm run build
 
 - `/login` - Login (public)
 - `/servers` - Server list and CRUD (protected)
+- `/servers/:serverId/logs` - Server monitoring charts and logs (read-only table; protected)
 - `/service-checks` - Service checks list and CRUD (protected)

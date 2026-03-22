@@ -163,11 +163,13 @@ export function ServerFormModal({
     } catch (err) {
       const hasValidationErrors =
         err instanceof ApiClientError && err.errors && Object.keys(err.errors).length > 0;
+
       toast.error(
         hasValidationErrors
           ? TOAST_MESSAGES.VALIDATION_ERROR
           : TOAST_MESSAGES.SERVER_SAVE_ERROR
       );
+
       if (err instanceof ApiClientError && err.errors) {
         setErrors(err.errors);
       }

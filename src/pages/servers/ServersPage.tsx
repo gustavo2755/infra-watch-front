@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, Link2, Unlink, Trash2 } from "lucide-react";
+import { Plus, Pencil, Link2, Unlink, Trash2, ScrollText } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import type { Server, ServerCreate, ServerUpdate } from "../../types/server";
 import { serverService } from "../../services/serverService";
@@ -26,6 +27,7 @@ const statusOptions: SelectOption[] = [
 ];
 
 export function ServersPage() {
+  const navigate = useNavigate();
   const [servers, setServers] = useState<Server[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -50,15 +52,17 @@ export function ServersPage() {
       const res = await serverService.list({
         name: filterName || undefined,
         is_active: isActiveParam,
+        page,
+        per_page: PER_PAGE,
       });
       setServers(res.data.data ?? []);
-      setTotal(res.data.count ?? 0);
+      setTotal(res.data.meta?.total ?? res.data.count ?? 0);
     } catch {
       toast.error(TOAST_MESSAGES.SERVERS_FETCH_ERROR);
     } finally {
       setLoading(false);
     }
-  }, [filterName, filterActive]);
+  }, [filterName, filterActive, page]);
 
   useEffect(() => {
     fetchServers();
@@ -134,12 +138,8 @@ export function ServersPage() {
   const handleClearFilters = () => {
     setFilterName("");
     setFilterActive("");
+    setPage(1);
   };
-
-  const paginatedServers = servers.slice(
-    (page - 1) * PER_PAGE,
-    page * PER_PAGE
-  );
 
   const columns: DataTableColumn<Server>[] = [
     { key: "id", label: "ID" },
@@ -200,6 +200,13 @@ export function ServersPage() {
       render: (row) => (
         <div className="flex gap-1">
           <ActionButton
+            variant="view"
+            tooltip="View logs"
+            onClick={() => navigate(`/servers/${row.id}/logs`)}
+          >
+            <ScrollText className="w-4 h-4" />
+          </ActionButton>
+          <ActionButton
             variant="attach"
             tooltip="Link service"
             onClick={() => handleOpenLinkModal(row)}
@@ -258,7 +265,7 @@ export function ServersPage() {
         <>
           <DataTable
             columns={columns}
-            data={paginatedServers}
+            data={servers}
             getRowKey={(row) => row.id}
           />
           <div className="mt-0">

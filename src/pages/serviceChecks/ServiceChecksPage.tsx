@@ -115,13 +115,16 @@ export function ServiceChecksPage() {
   const handleClearFilters = () => {
     setFilterName("");
     setFilterSlug("");
+    setPage(1);
   };
 
   const filtered = serviceChecks.filter((sc) => {
     if (filterName && !sc.name.toLowerCase().includes(filterName.toLowerCase()))
       return false;
+
     if (filterSlug && !sc.slug.toLowerCase().includes(filterSlug.toLowerCase()))
       return false;
+
     return true;
   });
 

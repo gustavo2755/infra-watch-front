@@ -5,6 +5,7 @@ import { AppLayout } from "./components/layout/AppLayout";
 import { LoginPage } from "./pages/LoginPage";
 import { ServersPage } from "./pages/servers/ServersPage";
 import { ServiceChecksPage } from "./pages/serviceChecks/ServiceChecksPage";
+import { ServerMonitoringPage } from "./pages/servers/ServerMonitoringPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           >
             <Route index element={<Navigate to="/servers" replace />} />
             <Route path="servers" element={<ServersPage />} />
+            <Route path="servers/:serverId/logs" element={<ServerMonitoringPage />} />
             <Route path="service-checks" element={<ServiceChecksPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

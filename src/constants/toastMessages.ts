@@ -18,6 +18,7 @@ export const TOAST_MESSAGES = {
   ATTACH_CONFLICT: "This service is already linked to this server.",
   DETACH_SUCCESS: "Unlinked successfully.",
   DETACH_ERROR: "Error unlinking.",
+  MONITORING_LOGS_FETCH_ERROR: "Error loading monitoring logs.",
   VALIDATION_ERROR: "Please fill in all required fields.",
   GENERIC_ERROR: "An error occurred. Please try again.",
 } as const;

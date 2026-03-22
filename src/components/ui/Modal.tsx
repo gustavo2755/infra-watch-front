@@ -13,10 +13,12 @@ export function Modal({ title, isOpen, onClose, children, footer }: ModalProps) 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
       document.body.style.overflow = "hidden";
     }
+
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "";

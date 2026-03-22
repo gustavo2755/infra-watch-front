@@ -38,6 +38,7 @@ export async function request<T>(
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
+
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
@@ -46,6 +47,7 @@ export async function request<T>(
     method,
     headers,
   };
+
   if (body !== undefined && method !== "GET" && method !== "DELETE") {
     init.body = JSON.stringify(body);
   }

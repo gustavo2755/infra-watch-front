@@ -19,7 +19,4 @@ export interface ServiceCheckUpdate {
   description?: string | null;
 }
 
-export interface ServiceCheckCollection {
-  data: ServiceCheck[];
-  count: number;
-}
+export type ServiceCheckCollection = import("./api").PaginatedCollection<ServiceCheck>;

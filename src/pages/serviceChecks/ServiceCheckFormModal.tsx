@@ -65,6 +65,7 @@ export function ServiceCheckFormModal({
       onClose();
     } catch (err) {
       toast.error(TOAST_MESSAGES.SERVICE_CHECK_SAVE_ERROR);
+
       if (err instanceof ApiClientError && err.errors) {
         setErrors(err.errors);
       }

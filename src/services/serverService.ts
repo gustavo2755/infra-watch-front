@@ -1,15 +1,18 @@
 import type { Server, ServerCreate, ServerUpdate, ServerCollection } from "../types/server";
-import type { ApiSuccess } from "../types/api";
+import type { ApiSuccess, PaginationParams } from "../types/api";
 import { request } from "./api/client";
 
 export const serverService = {
-  async list(params?: {
+  async list(params?: PaginationParams & {
     name?: string;
     is_active?: boolean;
   }): Promise<ApiSuccess<ServerCollection>> {
     const search = new URLSearchParams();
+
     if (params?.name) search.set("name", params.name);
     if (params?.is_active !== undefined) search.set("is_active", String(params.is_active ? 1 : 0));
+    if (params?.page !== undefined) search.set("page", String(params.page));
+    if (params?.per_page !== undefined) search.set("per_page", String(params.per_page));
     const query = search.toString();
     const path = `/api/servers${query ? `?${query}` : ""}`;
     return request<ApiSuccess<ServerCollection>>(path);

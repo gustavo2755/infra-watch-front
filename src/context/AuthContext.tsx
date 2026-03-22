@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = getStoredToken();
+
     if (!stored) {
       setIsLoading(false);
       return;
@@ -52,9 +53,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (credentials: LoginCredentials) => {
     const res = await authService.login(credentials);
+
     if (!res.success || !res.data) {
       throw new Error(res.message ?? "Erro ao fazer login");
     }
+
     const { token: newToken, user_id, email } = res.data;
     const authUser: AuthUser = { id: user_id, email };
     localStorage.setItem(STORAGE_TOKEN_KEY, newToken);
@@ -89,8 +92,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuthContext(): AuthContextValue {
   const ctx = useContext(AuthContext);
+
   if (!ctx) {
     throw new Error("useAuthContext must be used within AuthProvider");
   }
+
   return ctx;
 }

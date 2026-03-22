@@ -51,7 +51,4 @@ export interface ServerCreate {
 
 export type ServerUpdate = Partial<ServerCreate>;
 
-export interface ServerCollection {
-  data: Server[];
-  count: number;
-}
+export type ServerCollection = import("./api").PaginatedCollection<Server>;

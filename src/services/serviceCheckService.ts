@@ -4,12 +4,18 @@ import type {
   ServiceCheckUpdate,
   ServiceCheckCollection,
 } from "../types/serviceCheck";
-import type { ApiSuccess } from "../types/api";
+import type { ApiSuccess, PaginationParams } from "../types/api";
 import { request } from "./api/client";
 
 export const serviceCheckService = {
-  async list(): Promise<ApiSuccess<ServiceCheckCollection>> {
-    return request<ApiSuccess<ServiceCheckCollection>>("/api/service-checks");
+  async list(params?: PaginationParams): Promise<ApiSuccess<ServiceCheckCollection>> {
+    const search = new URLSearchParams();
+
+    if (params?.page != null) search.set("page", String(params.page));
+    if (params?.per_page != null) search.set("per_page", String(params.per_page));
+    const query = search.toString();
+    const path = `/api/service-checks${query ? `?${query}` : ""}`;
+    return request<ApiSuccess<ServiceCheckCollection>>(path);
   },
 
   async getById(id: number): Promise<ApiSuccess<ServiceCheck>> {
@@ -54,10 +60,16 @@ export const serviceCheckService = {
   },
 
   async getAvailableForServer(
-    serverId: number
+    serverId: number,
+    params?: PaginationParams
   ): Promise<ApiSuccess<ServiceCheckCollection>> {
+    const search = new URLSearchParams();
+
+    if (params?.page !== undefined) search.set("page", String(params.page));
+    if (params?.per_page !== undefined) search.set("per_page", String(params.per_page));
+    const query = search.toString();
     return request<ApiSuccess<ServiceCheckCollection>>(
-      `/api/servers/${serverId}/service-checks/available`
+      `/api/servers/${serverId}/service-checks/available${query ? `?${query}` : ""}`
     );
   },
 

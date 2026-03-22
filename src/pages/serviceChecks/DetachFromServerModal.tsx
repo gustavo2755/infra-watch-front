@@ -48,6 +48,7 @@ export function DetachFromServerModal({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     if (!serviceCheck || !selectedServerId) return;
     setLoading(true);
     try {

@@ -39,6 +39,7 @@ export function AttachToServerModal({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     if (!serviceCheck || !selectedServerId) return;
     setLoading(true);
     try {
@@ -54,6 +55,7 @@ export function AttachToServerModal({
         err instanceof ApiClientError && err.status === 409
           ? TOAST_MESSAGES.ATTACH_CONFLICT
           : TOAST_MESSAGES.ATTACH_ERROR;
+
       toast.error(msg);
     } finally {
       setLoading(false);
